@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ListPullRequests</string>
+    <string name="repo_name_hint">Ex. varunest/listpullrequests</string>
 </resources>

@@ -7,4 +7,19 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+
+    <EditText
+            android:id="@+id/searchInputEditText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/repo_name_hint"
+            android:imeOptions="actionSearch"
+    />
 </android.support.constraint.ConstraintLayout>

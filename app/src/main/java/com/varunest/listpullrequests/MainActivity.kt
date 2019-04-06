@@ -14,8 +14,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        presenter = PullRequestPresenterImpl()
-        presenter.setViewHelper(PullRequestViewHelperImpl(window.decorView.rootView))
+        presenter = PullRequestPresenterImpl(PullRequestViewHelperImpl(window.decorView.rootView))
+        presenter.start()
     }
 
     override fun onPause() {
