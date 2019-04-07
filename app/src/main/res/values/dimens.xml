@@ -6,4 +6,5 @@
     <dimen name="_14dp" type="dimen" format="float">14.0dip</dimen>
     <dimen name="_18dp" type="dimen" format="float">18.0dip</dimen>
     <dimen name="_40dp">40dp</dimen>
+    <dimen name="_200dp">200dp</dimen>
 </resources>
