@@ -13,8 +13,6 @@ import io.reactivex.schedulers.Schedulers
 
 interface PullRequestPresenter {
     fun start()
-    fun onPause()
-    fun onResume()
     fun onDestroy()
 }
 
@@ -55,14 +53,6 @@ class PRPresenterImpl(
     override fun onDestroy() {
         disposables.clear()
         prDisposable?.dispose()
-    }
-
-    override fun onResume() {
-        // TODO
-    }
-
-    override fun onPause() {
-        // TODO
     }
 
     private fun loadMorePullRequests() {

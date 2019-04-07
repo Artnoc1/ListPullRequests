@@ -10,6 +10,7 @@ class PRItemViewHolder(
     val itemView: View,
     override val containerView: View = itemView
 ) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+    
 
     fun bind(pullRequest: PullRequest?) {
         name.text = pullRequest?.user?.name
