@@ -1,11 +1,8 @@
-package com.varunest.listpullrequests
+package com.varunest.listpullrequests.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.varunest.listpullrequests.presenter.PullRequestPresenter
-import com.varunest.listpullrequests.presenter.PullRequestPresenterImpl
-import com.varunest.listpullrequests.view.PullRequestViewHelper
-import com.varunest.listpullrequests.view.PullRequestViewHelperImpl
+import com.varunest.listpullrequests.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,7 +11,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        presenter = PullRequestPresenterImpl(PullRequestViewHelperImpl(window.decorView.rootView))
+        presenter =
+            PullRequestPresenterImpl(PullRequestViewHelperImpl(window.decorView.rootView))
         presenter.start()
     }
 

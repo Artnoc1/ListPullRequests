@@ -1,7 +1,5 @@
-package com.varunest.listpullrequests.view
+package com.varunest.listpullrequests.ui
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
