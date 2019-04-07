@@ -11,6 +11,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"
+            android:paddingLeft="@dimen/_3dp"
+            android:paddingRight="@dimen/_3dp"
             android:textSize="@dimen/_12dp"
             android:textColor="@android:color/white"
             android:background="@color/colorAccent"

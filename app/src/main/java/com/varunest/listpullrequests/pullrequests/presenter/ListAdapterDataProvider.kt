@@ -9,6 +9,8 @@ interface ListAdapterDataProvider {
     fun setViewHelper(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>)
     fun addItems(adapterItems: ArrayList<ListAdapterItem>)
     fun resetItems()
+    fun addLoader(flag: Boolean)
+    fun getItemViewType(position: Int): Int
 }
 
 class ListAdapterDataProviderImpl : ListAdapterDataProvider {
@@ -20,13 +22,15 @@ class ListAdapterDataProviderImpl : ListAdapterDataProvider {
     }
 
     override fun addItems(adapterItems: ArrayList<ListAdapterItem>) {
+        val startPos = items.size
         items.addAll(adapterItems)
-        adapter?.notifyDataSetChanged()
+        adapter?.notifyItemRangeChanged(startPos, adapterItems.size)
     }
 
     override fun resetItems() {
+        val size = items.size
         items.clear()
-        adapter?.notifyDataSetChanged()
+        adapter?.notifyItemRangeRemoved(0, size)
     }
 
     override fun getItem(position: Int): ListAdapterItem {
@@ -35,5 +39,24 @@ class ListAdapterDataProviderImpl : ListAdapterDataProvider {
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return items[position].type
+    }
+
+    override fun addLoader(flag: Boolean) {
+        if (flag) {
+            if (items[items.size - 1].type != ListAdapterItem.TYPE_LOADER) {
+                items.add(ListAdapterItem(ListAdapterItem.TYPE_LOADER))
+                adapter?.notifyItemInserted(items.size - 1)
+            }
+        } else {
+            if (items[items.size - 1].type == ListAdapterItem.TYPE_LOADER) {
+                val pos = items.size - 1
+                items.removeAt(pos)
+                adapter?.notifyItemRemoved(pos)
+            }
+        }
     }
 }

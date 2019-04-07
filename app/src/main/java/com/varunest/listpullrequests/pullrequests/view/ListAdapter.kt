@@ -36,6 +36,10 @@ class ListAdapter(val dataProvider: ListAdapterDataProvider) : RecyclerView.Adap
         return dataProvider.getItemCount()
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return dataProvider.getItemViewType(position)
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val listItem = dataProvider.getItem(position)
         when (listItem.type) {
