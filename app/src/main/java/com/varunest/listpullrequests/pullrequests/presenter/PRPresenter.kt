@@ -49,8 +49,30 @@ class PRPresenterImpl(
 
         val prClickDisposable = viewHelper.getPRClickObservable()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {pullRequest -> CommonUtils.openWebPage(pullRequest.url, viewHelper.getContext())}
+            .subscribe { pullRequest -> CommonUtils.openWebPage(pullRequest.url, viewHelper.getContext()) }
 
+        val queryTextWatchDisposable = viewHelper.getQueryTextWatchObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { input ->
+                if (input.isEmpty()) {
+                    viewHelper.showClearSearchIcon(false)
+                    viewHelper.showPRListView(false)
+                    interactor.resetState()
+                    dataProvider.resetItems()
+                    viewHelper.showBigMessage(viewHelper.getContext().getString(R.string.search_a_repo))
+                } else {
+                    viewHelper.showClearSearchIcon(true)
+                }
+            }
+
+        val clearSearchDisposable = viewHelper.getClearSearchObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{
+                viewHelper.clearSearchText()
+            }
+
+        disposables.add(clearSearchDisposable)
+        disposables.add(queryTextWatchDisposable)
         disposables.add(prClickDisposable)
         disposables.add(inputQueryDisposable)
         disposables.add(scrolledToBottomDisposable)
@@ -82,9 +104,11 @@ class PRPresenterImpl(
                         interactor.setLoading(false)
                         dataProvider.addLoader(false)
                         if (err != null) {
-                            var message = viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.unknown_error)
+                            var message =
+                                viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.unknown_error)
                             if (!CommonUtils.isNetworkAvailable(viewHelper.getContext())) {
-                                message = viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.network_unavailable)
+                                message = viewHelper.getContext()
+                                    .getString(com.varunest.listpullrequests.R.string.network_unavailable)
                             } else if (err.message != null) {
                                 message = err.message
                             }
@@ -108,12 +132,13 @@ class PRPresenterImpl(
      *  @param pair contains repo owner in first and repo name in second value.
      */
     private fun showPullRequestsForQuery(pair: Pair<String, String>) {
+        viewHelper.showPRListView(false)
+        dataProvider.resetItems()
+        viewHelper.showBigMessage("")
+        interactor.resetState()
+
         if (!pair.first.isEmpty() && !pair.second.isEmpty()) {
             viewHelper.showFullPageLoader(true)
-            viewHelper.showPRListView(false)
-            viewHelper.showBigMessage("")
-            dataProvider.resetItems()
-            interactor.resetState()
             interactor.setLoading(true)
 
             if (prDisposable != null && prDisposable?.isDisposed != true) {
@@ -133,7 +158,8 @@ class PRPresenterImpl(
                     interactor.setLoading(false)
                     viewHelper.showFullPageLoader(false)
                     if (err != null) {
-                        var message = viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.unknown_error)
+                        var message =
+                            viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.unknown_error)
                         if (!CommonUtils.isNetworkAvailable(viewHelper.getContext())) {
                             message = viewHelper.getContext().getString(
                                 com.varunest.listpullrequests.R.string.network_unavailable

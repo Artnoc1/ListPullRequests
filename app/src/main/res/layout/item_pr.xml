@@ -6,9 +6,9 @@
                                              android:paddingLeft="@dimen/standard_margin"
                                              android:paddingRight="@dimen/standard_margin"
                                              android:paddingBottom="@dimen/_20dp"
+                                             android:paddingTop="@dimen/_20dp"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content">
-
 
     <TextView
             android:layout_width="wrap_content"
@@ -52,14 +52,29 @@
             app:layout_constraintTop_toTopOf="parent"
     />
 
+    <ImageView
+            android:id="@+id/prLogo"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pullrequestNumber"
+            android:src="@drawable/pr_icon"
+    />
+
     <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/title"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end"
+            android:layout_marginTop="@dimen/_5dp"
             android:textColor="@color/titleColor"
             android:textSize="@dimen/_18dp"
+            app:layout_constraintLeft_toRightOf="@id/prLogo"
+            app:layout_constraintStart_toEndOf="@id/prLogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             tools:text="This is a test Pull Request"
             app:layout_constraintTop_toBottomOf="@id/name"
     />
@@ -74,7 +89,7 @@
             android:maxLines="3"
             android:ellipsize="end"
             tools:text="This is a really long body of a open pull request. To check what is right and wrong please tell me whatever is good. Should ellipsize here."
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/prLogo"
     />
 
 
