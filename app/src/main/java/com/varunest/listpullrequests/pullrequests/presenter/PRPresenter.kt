@@ -1,5 +1,10 @@
-package com.varunest.listpullrequests.pullrequests
+package com.varunest.listpullrequests.pullrequests.presenter
 
+import com.varunest.listpullrequests.data.network.model.PullRequest
+import com.varunest.listpullrequests.pullrequests.interactor.PRInteractor
+import com.varunest.listpullrequests.pullrequests.interactor.PRInteractorImpl
+import com.varunest.listpullrequests.pullrequests.view.PRViewHelper
+import com.varunest.listpullrequests.pullrequests.view.model.ListAdapterItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -11,14 +16,17 @@ interface PullRequestPresenter {
     fun onDestroy()
 }
 
-class PullRequestPresenterImpl(
-    private val viewHelper: PullRequestViewHelper
+class PRPresenterImpl(
+    private val viewHelper: PRViewHelper
 ) :
     PullRequestPresenter {
     private var disposables = CompositeDisposable()
-    private val interactor = PullRequestInteractorImpl()
+    private val interactor: PRInteractor = PRInteractorImpl()
+    private val dataProvider: ListAdapterDataProvider = ListAdapterDataProviderImpl()
 
     override fun start() {
+        viewHelper.wireUpWidgets(dataProvider)
+
         val disposable = viewHelper.queryInputObserver()
             .subscribeOn(Schedulers.io())
             .map { repositoryAddress ->
@@ -34,11 +42,18 @@ class PullRequestPresenterImpl(
                 interactor.getPullRequests(pair.first, pair.second)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { pullrequests, err ->
+                    .map { pullrequests ->
+                        val adapterItems = ArrayList<ListAdapterItem>()
+                        for (pr in pullrequests) {
+                            adapterItems.add(ListAdapterItem(pr))
+                        }
+                        adapterItems
+                    }
+                    .subscribe { adapterItems, err ->
                         if (err != null) {
                             viewHelper.showToast(err.message)
                         } else {
-                            // TODO: show pull requests
+                            dataProvider.addItems(adapterItems)
                         }
                     }
             }

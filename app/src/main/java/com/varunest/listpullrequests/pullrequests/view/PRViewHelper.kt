@@ -1,20 +1,24 @@
-package com.varunest.listpullrequests.pullrequests
+package com.varunest.listpullrequests.pullrequests.view
 
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import com.varunest.listpullrequests.pullrequests.presenter.ListAdapterDataProvider
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_main.*
 
-interface PullRequestViewHelper {
+interface PRViewHelper {
 
     fun queryInputObserver(): Observable<String>
     fun showToast(query: String?)
+    fun wireUpWidgets(dataProvider: ListAdapterDataProvider)
 }
 
-class PullRequestViewHelperImpl(val rootView: View) : PullRequestViewHelper, LayoutContainer {
+class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
     override val containerView: View = rootView
 
     private val queryInputSubject = PublishSubject.create<String>()
@@ -29,6 +33,15 @@ class PullRequestViewHelperImpl(val rootView: View) : PullRequestViewHelper, Lay
                 false
             }
         }
+        pullrequestRecyclerView.layoutManager = LinearLayoutManager(rootView.context)
+        pullrequestRecyclerView.itemAnimator = DefaultItemAnimator()
+
+    }
+
+    override fun wireUpWidgets(dataProvider: ListAdapterDataProvider) {
+        val adapter = ListAdapter(dataProvider)
+        dataProvider.setViewHelper(adapter)
+        pullrequestRecyclerView.adapter = adapter
     }
 
     override fun showToast(query: String?) {

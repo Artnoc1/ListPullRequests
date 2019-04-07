@@ -3,6 +3,9 @@ package com.varunest.listpullrequests.pullrequests
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.varunest.listpullrequests.R
+import com.varunest.listpullrequests.pullrequests.presenter.PullRequestPresenter
+import com.varunest.listpullrequests.pullrequests.presenter.PRPresenterImpl
+import com.varunest.listpullrequests.pullrequests.view.PRViewHelperImpl
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +15,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         presenter =
-            PullRequestPresenterImpl(PullRequestViewHelperImpl(window.decorView.rootView))
+            PRPresenterImpl(
+                PRViewHelperImpl(
+                    window.decorView.rootView
+                )
+            )
         presenter.start()
     }
 

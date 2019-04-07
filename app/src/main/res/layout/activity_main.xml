@@ -22,4 +22,16 @@
             android:hint="@string/repo_name_hint"
             android:imeOptions="actionSearch"
     />
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/pullrequestRecyclerView"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_20dp"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            app:layout_constraintTop_toBottomOf="@id/searchInputEditText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 </android.support.constraint.ConstraintLayout>
