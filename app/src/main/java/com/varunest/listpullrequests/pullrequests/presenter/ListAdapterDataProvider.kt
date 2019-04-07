@@ -30,7 +30,7 @@ class ListAdapterDataProviderImpl : ListAdapterDataProvider {
     override fun resetItems() {
         val size = items.size
         items.clear()
-        adapter?.notifyItemRangeRemoved(0, size)
+        adapter?.notifyDataSetChanged()
     }
 
     override fun getItem(position: Int): ListAdapterItem {

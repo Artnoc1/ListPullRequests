@@ -132,8 +132,8 @@ class PRPresenterImpl(
      *  @param pair contains repo owner in first and repo name in second value.
      */
     private fun showPullRequestsForQuery(pair: Pair<String, String>) {
-        viewHelper.showPRListView(false)
         dataProvider.resetItems()
+        viewHelper.showPRListView(false)
         viewHelper.showBigMessage("")
         interactor.resetState()
 
