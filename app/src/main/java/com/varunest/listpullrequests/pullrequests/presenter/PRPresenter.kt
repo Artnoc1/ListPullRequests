@@ -1,6 +1,5 @@
 package com.varunest.listpullrequests.pullrequests.presenter
 
-import com.varunest.listpullrequests.data.network.model.PullRequest
 import com.varunest.listpullrequests.pullrequests.interactor.PRInteractor
 import com.varunest.listpullrequests.pullrequests.interactor.PRInteractorImpl
 import com.varunest.listpullrequests.pullrequests.view.PRViewHelper
@@ -38,25 +37,7 @@ class PRPresenterImpl(
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { pair ->
-                interactor.getPullRequests(pair.first, pair.second)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map { pullrequests ->
-                        val adapterItems = ArrayList<ListAdapterItem>()
-                        for (pr in pullrequests) {
-                            adapterItems.add(ListAdapterItem(pr))
-                        }
-                        adapterItems
-                    }
-                    .subscribe { adapterItems, err ->
-                        if (err != null) {
-                            viewHelper.showToast(err.message)
-                        } else {
-                            dataProvider.addItems(adapterItems)
-                        }
-                    }
-            }
+            .subscribe { pair -> showPullRequestsForQuery(pair) }
         disposables.add(disposable)
     }
 
@@ -72,4 +53,39 @@ class PRPresenterImpl(
         // TODO
     }
 
+    /**
+     * Fetch data and then render the PR on screen.
+     *
+     *  @param pair contains repo owner in first and repo name in second value.
+     */
+    private fun showPullRequestsForQuery(pair: Pair<String, String>) {
+        if (!pair.first.isEmpty() && !pair.second.isEmpty()) {
+            viewHelper.showFullPageLoader(true)
+            viewHelper.showPRListView(false)
+            dataProvider.resetItems()
+
+            val disposable = interactor.getPullRequests(pair.first, pair.second)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { pullrequests ->
+                    val adapterItems = ArrayList<ListAdapterItem>()
+                    for (pr in pullrequests) {
+                        adapterItems.add(ListAdapterItem(pr))
+                    }
+                    adapterItems
+                }
+                .subscribe { adapterItems, err ->
+                    viewHelper.showFullPageLoader(false)
+                    if (err != null) {
+                        viewHelper.showToast(err.message)
+                    } else {
+                        viewHelper.showPRListView(true)
+                        dataProvider.addItems(adapterItems)
+                    }
+                }
+            disposables.add(disposable)
+        } else {
+            viewHelper.showToast("Invalid repository address.")
+        }
+    }
 }

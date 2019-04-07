@@ -8,18 +8,24 @@ interface ListAdapterDataProvider {
     fun getItem(position: Int): ListAdapterItem
     fun setViewHelper(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>)
     fun addItems(adapterItems: ArrayList<ListAdapterItem>)
+    fun resetItems()
 }
 
 class ListAdapterDataProviderImpl : ListAdapterDataProvider {
     var adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
-    var items: ArrayList<ListAdapterItem> = ArrayList()
 
+    var items: ArrayList<ListAdapterItem> = ArrayList()
     override fun setViewHelper(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
         this.adapter = adapter
     }
 
     override fun addItems(adapterItems: ArrayList<ListAdapterItem>) {
         items.addAll(adapterItems)
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun resetItems() {
+        items.clear()
         adapter?.notifyDataSetChanged()
     }
 

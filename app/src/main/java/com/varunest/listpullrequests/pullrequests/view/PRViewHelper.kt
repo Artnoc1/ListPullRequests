@@ -16,6 +16,8 @@ interface PRViewHelper {
     fun queryInputObserver(): Observable<String>
     fun showToast(query: String?)
     fun wireUpWidgets(dataProvider: ListAdapterDataProvider)
+    fun showFullPageLoader(flag: Boolean)
+    fun showPRListView(flag: Boolean)
 }
 
 class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
@@ -42,6 +44,14 @@ class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
         val adapter = ListAdapter(dataProvider)
         dataProvider.setViewHelper(adapter)
         pullrequestRecyclerView.adapter = adapter
+    }
+
+    override fun showFullPageLoader(flag: Boolean) {
+        progressBar.visibility = if (flag) View.VISIBLE else View.GONE
+    }
+
+    override fun showPRListView(flag: Boolean) {
+        pullrequestRecyclerView.visibility = if (flag) View.VISIBLE else View.GONE
     }
 
     override fun showToast(query: String?) {
