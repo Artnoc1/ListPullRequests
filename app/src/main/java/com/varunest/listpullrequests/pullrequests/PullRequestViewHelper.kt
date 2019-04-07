@@ -1,4 +1,4 @@
-package com.varunest.listpullrequests.ui
+package com.varunest.listpullrequests.pullrequests
 
 import android.view.View
 import android.view.inputmethod.EditorInfo

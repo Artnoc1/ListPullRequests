@@ -1,4 +1,4 @@
-package com.varunest.listpullrequests.ui
+package com.varunest.listpullrequests.pullrequests
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

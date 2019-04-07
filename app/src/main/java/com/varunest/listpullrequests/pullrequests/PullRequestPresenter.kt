@@ -1,4 +1,4 @@
-package com.varunest.listpullrequests.ui
+package com.varunest.listpullrequests.pullrequests
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

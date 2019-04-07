@@ -1,9 +1,8 @@
-package com.varunest.listpullrequests.ui
+package com.varunest.listpullrequests.pullrequests
 
 import com.varunest.listpullrequests.data.network.GithubApiService
 import com.varunest.listpullrequests.data.network.RetrofitInstance
 import com.varunest.listpullrequests.data.network.model.PullRequest
-import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.*
 
