@@ -96,7 +96,7 @@ class PRPresenterImpl(
                 }
             disposables.add(disposable)
         } else {
-            viewHelper.showToast("Invalid repository address.")
+            viewHelper.showBigMessage(viewHelper.getContext().getString(R.string.invalid_repo_address))
         }
     }
 }

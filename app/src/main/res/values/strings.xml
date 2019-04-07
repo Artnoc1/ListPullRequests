@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ListPullRequests</string>
     <string name="repo_name_hint">Ex. varunest/listpullrequests</string>
-    <string name="search_a_repo">Search a Repo.</string>
+    <string name="search_a_repo">Search a Repo for open PRs.</string>
     <string name="no_open_pr">No open PR.</string>
+    <string name="invalid_repo_address">Invalid repository address.</string>
 </resources>
