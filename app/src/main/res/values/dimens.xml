@@ -2,4 +2,7 @@
 <resources>
     <dimen name="standard_margin">16.0dip</dimen>
     <dimen name="_20dp" type="dimen" format="float">20.0dip</dimen>
+    <dimen name="_12dp">12dip</dimen>
+    <dimen name="_14dp" type="dimen" format="float">14.0dip</dimen>
+    <dimen name="_18dp" type="dimen" format="float">18.0dip</dimen>
 </resources>

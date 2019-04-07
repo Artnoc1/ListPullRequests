@@ -12,7 +12,9 @@ class PRItemViewHolder(
 ) : RecyclerView.ViewHolder(itemView), LayoutContainer {
 
     fun bind(pullRequest: PullRequest?) {
+        name.text = pullRequest?.user?.name
         title.text = pullRequest?.title
+        body.text = pullRequest?.body
     }
 
 }
