@@ -12,10 +12,12 @@ import android.net.Uri
 
 
 object CommonUtils {
-    private const val SECOND_MILLIS = 1000
+    private const val SECOND_MILLIS = 1000L
     private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
     private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
     private const val DAY_MILLIS = 24 * HOUR_MILLIS
+    private const val MONTH_MILLIS = 30 * DAY_MILLIS
+    private const val YEAR_MILLIS = 12 * MONTH_MILLIS
 
     fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -47,7 +49,11 @@ object CommonUtils {
             diff < 2 * HOUR_MILLIS -> "an hour ago"
             diff < 24 * HOUR_MILLIS -> "${diff / HOUR_MILLIS} hours ago"
             diff < 48 * HOUR_MILLIS -> "yesterday"
-            else -> "${diff / DAY_MILLIS} days ago"
+            diff <  MONTH_MILLIS -> "${diff / DAY_MILLIS} days ago"
+            diff < 2 * MONTH_MILLIS -> "1 month ago"
+            diff < 12 * MONTH_MILLIS -> "${diff / MONTH_MILLIS} months ago"
+            diff < 2 * YEAR_MILLIS -> "1 year ago"
+            else -> "${diff / YEAR_MILLIS} years ago"
         }
     }
 
