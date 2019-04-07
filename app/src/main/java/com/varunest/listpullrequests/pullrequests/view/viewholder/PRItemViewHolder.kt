@@ -22,6 +22,7 @@ class PRItemViewHolder(
         name.text = pullRequest?.user?.name
         title.text = pullRequest?.title
         body.text = pullRequest?.body
+        pullrequestNumber.text = "#${pullRequest?.number}"
         try {
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
             simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT")
