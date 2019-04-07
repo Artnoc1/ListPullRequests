@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.varunest.listpullrequests.R
+import com.varunest.listpullrequests.data.network.model.PullRequest
 import com.varunest.listpullrequests.pullrequests.presenter.ListAdapterDataProvider
 import com.varunest.listpullrequests.pullrequests.view.model.ListAdapterItem
 import com.varunest.listpullrequests.pullrequests.view.viewholder.LoaderViewHolder
 import com.varunest.listpullrequests.pullrequests.view.viewholder.PRItemViewHolder
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 class ListAdapter(val dataProvider: ListAdapterDataProvider) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    val prItemClickSubject = PublishSubject.create<PullRequest>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
@@ -29,7 +33,7 @@ class ListAdapter(val dataProvider: ListAdapterDataProvider) : RecyclerView.Adap
                 )
             )
         }
-        return object : RecyclerView.ViewHolder(View(parent.context)){}
+        return object : RecyclerView.ViewHolder(View(parent.context)) {}
     }
 
     override fun getItemCount(): Int {
@@ -43,8 +47,11 @@ class ListAdapter(val dataProvider: ListAdapterDataProvider) : RecyclerView.Adap
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val listItem = dataProvider.getItem(position)
         when (listItem.type) {
-            ListAdapterItem.TYPE_PR -> (holder as PRItemViewHolder).bind(listItem.pullRequest)
+            ListAdapterItem.TYPE_PR -> (holder as PRItemViewHolder).bind(listItem.pullRequest, prItemClickSubject)
         }
     }
 
+    fun getPRClickObservable(): Observable<PullRequest> {
+        return prItemClickSubject
+    }
 }

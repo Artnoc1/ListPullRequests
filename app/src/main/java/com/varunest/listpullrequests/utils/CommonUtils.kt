@@ -1,16 +1,14 @@
 package com.varunest.listpullrequests.utils
 
 import android.content.Context
-import android.net.NetworkInfo
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.support.v4.content.ContextCompat.getSystemService
 import android.net.ConnectivityManager
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.support.v4.content.ContextCompat.getSystemService
-import android.text.format.DateUtils
 import java.util.*
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent
+import android.net.Uri
 
 
 object CommonUtils {
@@ -28,11 +26,6 @@ object CommonUtils {
     fun hideKeyboard(context: Context, view: View) {
         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun currentDateUTC(): Date {
-        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-        return calendar.time
     }
 
     fun getTimeAgo(date: Date): String {
@@ -56,6 +49,14 @@ object CommonUtils {
             diff < 48 * HOUR_MILLIS -> "yesterday"
             else -> "${diff / DAY_MILLIS} days ago"
         }
+    }
+
+    fun openWebPage(url: String, context: Context) {
+        val webpage = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
+
     }
 
 }

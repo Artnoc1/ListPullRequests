@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import com.varunest.listpullrequests.data.network.model.PullRequest
 import com.varunest.listpullrequests.pullrequests.presenter.ListAdapterDataProvider
 import com.varunest.listpullrequests.utils.CommonUtils
 import com.varunest.listpullrequests.utils.OnRecyclerScrolledToBottomListener
@@ -26,10 +27,10 @@ interface PRViewHelper {
     fun showPRListView(flag: Boolean)
     fun getContext(): Context
     fun showBigMessage(string: String)
+    fun getPRClickObservable(): Observable<PullRequest>
 }
 
 class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
-
 
     override val containerView: View = rootView
 
@@ -100,5 +101,9 @@ class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
 
     override fun scrolledToBottomObservable(): Observable<Unit> {
         return bottomScrollSubject
+    }
+
+    override fun getPRClickObservable(): Observable<PullRequest> {
+        return (pullrequestRecyclerView.adapter as ListAdapter).getPRClickObservable()
     }
 }

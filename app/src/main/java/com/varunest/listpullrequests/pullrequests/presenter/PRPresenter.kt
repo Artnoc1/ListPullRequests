@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
+
 interface PullRequestPresenter {
     fun start()
     fun onDestroy()
@@ -46,6 +47,11 @@ class PRPresenterImpl(
                 loadMorePullRequests()
             }
 
+        val prClickDisposable = viewHelper.getPRClickObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {pullRequest -> CommonUtils.openWebPage(pullRequest.url, viewHelper.getContext())}
+
+        disposables.add(prClickDisposable)
         disposables.add(inputQueryDisposable)
         disposables.add(scrolledToBottomDisposable)
     }
@@ -76,9 +82,9 @@ class PRPresenterImpl(
                         interactor.setLoading(false)
                         dataProvider.addLoader(false)
                         if (err != null) {
-                            var message = viewHelper.getContext().getString(R.string.unknown_error)
+                            var message = viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.unknown_error)
                             if (!CommonUtils.isNetworkAvailable(viewHelper.getContext())) {
-                                message = viewHelper.getContext().getString(R.string.network_unavailable)
+                                message = viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.network_unavailable)
                             } else if (err.message != null) {
                                 message = err.message
                             }
@@ -127,10 +133,10 @@ class PRPresenterImpl(
                     interactor.setLoading(false)
                     viewHelper.showFullPageLoader(false)
                     if (err != null) {
-                        var message = viewHelper.getContext().getString(R.string.unknown_error)
+                        var message = viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.unknown_error)
                         if (!CommonUtils.isNetworkAvailable(viewHelper.getContext())) {
                             message = viewHelper.getContext().getString(
-                                R.string.network_unavailable
+                                com.varunest.listpullrequests.R.string.network_unavailable
                             )
                         } else {
                             err.message?.let {
@@ -142,7 +148,7 @@ class PRPresenterImpl(
                         if (adapterItems.isEmpty()) {
                             interactor.setMoreAvailable(false)
                             viewHelper.showPRListView(false)
-                            viewHelper.showBigMessage(viewHelper.getContext().getString(R.string.no_open_pr))
+                            viewHelper.showBigMessage(viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.no_open_pr))
                         } else {
                             viewHelper.showPRListView(true)
                             viewHelper.showBigMessage("")
@@ -153,7 +159,7 @@ class PRPresenterImpl(
                     }
                 }
         } else {
-            viewHelper.showBigMessage(viewHelper.getContext().getString(R.string.invalid_repo_address))
+            viewHelper.showBigMessage(viewHelper.getContext().getString(com.varunest.listpullrequests.R.string.invalid_repo_address))
         }
     }
 }
