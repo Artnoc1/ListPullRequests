@@ -1,5 +1,6 @@
 package com.varunest.listpullrequests.pullrequests.presenter
 
+import com.varunest.listpullrequests.R
 import com.varunest.listpullrequests.pullrequests.interactor.PRInteractor
 import com.varunest.listpullrequests.pullrequests.interactor.PRInteractorImpl
 import com.varunest.listpullrequests.pullrequests.view.PRViewHelper
@@ -62,6 +63,7 @@ class PRPresenterImpl(
         if (!pair.first.isEmpty() && !pair.second.isEmpty()) {
             viewHelper.showFullPageLoader(true)
             viewHelper.showPRListView(false)
+            viewHelper.showBigMessage("")
             dataProvider.resetItems()
 
             val disposable = interactor.getPullRequests(pair.first, pair.second)
@@ -77,10 +79,19 @@ class PRPresenterImpl(
                 .subscribe { adapterItems, err ->
                     viewHelper.showFullPageLoader(false)
                     if (err != null) {
-                        viewHelper.showToast(err.message)
+                        err.message?.let {
+                            viewHelper.showBigMessage(it)
+                        }
                     } else {
-                        viewHelper.showPRListView(true)
-                        dataProvider.addItems(adapterItems)
+                        if (adapterItems.isEmpty()) {
+                            viewHelper.showPRListView(false)
+                            viewHelper.showBigMessage(viewHelper.getContext().getString(R.string.no_open_pr))
+                        } else {
+                            viewHelper.showPRListView(true)
+                            viewHelper.showBigMessage("")
+                            dataProvider.addItems(adapterItems)
+                        }
+
                     }
                 }
             disposables.add(disposable)
