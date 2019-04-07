@@ -29,7 +29,6 @@ class PRPresenterImpl(
 
     override fun start() {
         viewHelper.wireUpWidgets(dataProvider)
-
         val disposable = viewHelper.queryInputObserver()
             .subscribeOn(Schedulers.io())
             .map { repositoryAddress ->

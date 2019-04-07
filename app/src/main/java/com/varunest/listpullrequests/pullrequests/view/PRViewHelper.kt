@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.varunest.listpullrequests.pullrequests.presenter.ListAdapterDataProvider
+import com.varunest.listpullrequests.utils.CommonUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.extensions.LayoutContainer
@@ -34,6 +35,7 @@ class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
         queryInputSubject.onNext("")
         searchInputEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                CommonUtils.hideKeyboard(rootView.context, searchInputEditText)
                 queryInputSubject.onNext(searchInputEditText.text.toString())
                 true
             } else {
