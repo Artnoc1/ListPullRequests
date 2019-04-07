@@ -6,4 +6,5 @@
     <string name="invalid_repo_address">Invalid repository address.</string>
     <string name="network_unavailable">No internet connection. Please try again.</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="time_ago_string">Opened %s by</string>
 </resources>

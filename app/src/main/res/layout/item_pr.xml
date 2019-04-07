@@ -9,11 +9,25 @@
 
     <TextView
             android:layout_width="wrap_content"
+            android:id="@+id/timeAgoTextView"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Opened 3 hours ago by "
+            android:textSize="@dimen/_12dp"
+            android:layout_marginRight="@dimen/standard_margin"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"
             android:paddingLeft="@dimen/_3dp"
             android:paddingRight="@dimen/_3dp"
             android:textSize="@dimen/_12dp"
+            android:layout_marginLeft="@dimen/_5dp"
+            app:layout_constraintLeft_toRightOf="@id/timeAgoTextView"
             android:textColor="@android:color/white"
             android:background="@color/colorAccent"
             tools:text="Varun"
@@ -36,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/body"
+            android:layout_marginTop="@dimen/_5dp"
             android:textSize="@dimen/_14dp"
             android:textColor="@color/bodyColor"
             android:maxLines="3"
