@@ -77,6 +77,6 @@ class PRViewHelperImpl(val rootView: View) : PRViewHelper, LayoutContainer {
     }
 
     override fun queryInputObserver(): Observable<String> {
-        return queryInputSubject.distinctUntilChanged()
+        return queryInputSubject
     }
 }

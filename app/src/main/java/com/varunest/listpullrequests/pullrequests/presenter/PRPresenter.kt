@@ -1,13 +1,16 @@
 package com.varunest.listpullrequests.pullrequests.presenter
 
+import android.support.v7.widget.RecyclerView
 import com.varunest.listpullrequests.R
 import com.varunest.listpullrequests.pullrequests.interactor.PRInteractor
 import com.varunest.listpullrequests.pullrequests.interactor.PRInteractorImpl
 import com.varunest.listpullrequests.pullrequests.view.PRViewHelper
 import com.varunest.listpullrequests.pullrequests.view.model.ListAdapterItem
+import com.varunest.listpullrequests.utils.CommonUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 interface PullRequestPresenter {
     fun start()
@@ -80,7 +83,11 @@ class PRPresenterImpl(
                     viewHelper.showFullPageLoader(false)
                     if (err != null) {
                         err.message?.let {
-                            viewHelper.showBigMessage(it)
+                            viewHelper.showBigMessage(
+                                if (CommonUtils.isNetworkAvailable(viewHelper.getContext())) it else viewHelper.getContext().getString(
+                                    R.string.network_unavailable
+                                )
+                            )
                         }
                     } else {
                         if (adapterItems.isEmpty()) {
